@@ -1,9 +1,22 @@
 package servlet;
 
+import model.User;
+
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GetStartServlet extends javax.servlet.http.HttpServlet {
+    private List<User> users;
+
+    @Override
+    public void init() throws ServletException {
+        users = new CopyOnWriteArrayList<>();
+        users.add(new User("Java", 10));
+        users.add(new User("Vision", 20));
+    }
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
     }
