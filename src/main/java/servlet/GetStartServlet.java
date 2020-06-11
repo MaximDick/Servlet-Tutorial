@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GetStartServlet extends javax.servlet.http.HttpServlet {
+
+    private final static String index = "/index.jsp";
     private List<User> users;
+
 
     @Override
     public void init() throws ServletException {
@@ -22,7 +25,12 @@ public class GetStartServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher(index);
         dispatcher.forward(request,response);
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("*************SERVLET IS DESTROY************");
     }
 }
