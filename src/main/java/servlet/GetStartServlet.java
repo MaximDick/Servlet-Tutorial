@@ -4,6 +4,7 @@ import model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,17 +21,36 @@ public class GetStartServlet extends javax.servlet.http.HttpServlet {
         users.add(new User("Java", 10));
         users.add(new User("Vision", 20));
     }
-    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-
-    }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        request.setAttribute("users", users);
         RequestDispatcher dispatcher = request.getRequestDispatcher(index);
         dispatcher.forward(request,response);
     }
 
-    @Override
-    public void destroy() {
-        System.out.println("*************SERVLET IS DESTROY************");
+    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        request.setCharacterEncoding("UTF8");
+
+        if (!requestIsValid(request)) {
+            doGet(request, response);
+        }
+
+        final String name = request.getParameter("name");
+        final String age = request.getParameter("age");
+
+        final User user = new User(name, Integer.valueOf(age));
+        users.add(user);
+        doGet(request, response);
+
     }
+
+    private Boolean requestIsValid(final HttpServletRequest request) {
+        final String name = request.getParameter("name");
+        final String age = request.getParameter("age");
+
+        return  name != null && name.length() > 0 &&
+                age  != null && age.length() > 0 &&
+                age .matches("[+]?\\d+");
+    }
+
 }
