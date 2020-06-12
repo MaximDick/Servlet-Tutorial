@@ -24,8 +24,7 @@ public class GetStartServlet extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setAttribute("users", users);
-        RequestDispatcher dispatcher = request.getRequestDispatcher(index);
-        dispatcher.forward(request,response);
+        request.getRequestDispatcher(index).forward(request,response);
     }
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -40,17 +39,17 @@ public class GetStartServlet extends javax.servlet.http.HttpServlet {
 
         final User user = new User(name, Integer.valueOf(age));
         users.add(user);
-        doGet(request, response);
 
+        doGet(request, response);
     }
 
-    private Boolean requestIsValid(final HttpServletRequest request) {
+    private boolean requestIsValid(final HttpServletRequest request) {
         final String name = request.getParameter("name");
         final String age = request.getParameter("age");
 
         return  name != null && name.length() > 0 &&
                 age  != null && age.length() > 0 &&
-                age .matches("[+]?\\d+");
+                age.matches("[+]?\\d+");
     }
 
 }
